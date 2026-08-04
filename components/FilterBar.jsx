@@ -10,7 +10,7 @@ export default function FilterBar({
             onChange={(e) =>
                 setStatus(e.target.value)
             }
-            className="rounded-lg border border-gray-300 px-4 py-2"
+            className="rounded-lg border border-gray-300 px-4 text-gray-900 py-2"
         >
             <option value="">
                 All Status
