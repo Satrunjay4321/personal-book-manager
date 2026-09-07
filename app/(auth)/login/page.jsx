@@ -57,7 +57,7 @@ export default function LoginPage() {
 
             <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
 
-                <h1 className="mb-6 text-center text-3xl font-bold">
+                <h1 className="mb-6 text-center text-3xl font-bold text-gray-400">
                     Login
                 </h1>
 
@@ -85,13 +85,14 @@ export default function LoginPage() {
                     <Button
                         type="submit"
                         disabled={loading}
+                        className="cursor-pointer"
                     >
                         {loading ? "Logging in..." : "Login"}
                     </Button>
 
                 </form>
 
-                <p className="mt-6 text-center text-sm">
+                <p className="mt-6 text-center text-sm text-gray-400">
 
                     Don&apost have an account?
 

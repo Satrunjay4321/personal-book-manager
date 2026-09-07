@@ -7,7 +7,6 @@ import Book from "../../../../models/Book";
 
 // GET SINGLE BOOK
 export async function GET(request, { params }) {
-
     try {
 
         await connectDB();
@@ -53,26 +52,31 @@ export async function GET(request, { params }) {
         );
 
     }
-
 }
 
 
 
 // UPDATE BOOK
 
+// UPDATE BOOK
 export async function PUT(request, { params }) {
+
     try {
+
         await connectDB();
 
         const { id } = await params;
+
         const userId = await getUserId();
 
         const body = await request.json();
 
-        // Validate request body
+        // Validation
+
         const error = validateBook(body);
 
         if (error) {
+
             return NextResponse.json(
                 {
                     success: false,
@@ -82,26 +86,50 @@ export async function PUT(request, { params }) {
                     status: 400,
                 }
             );
+
+        }
+
+        // Business Logic
+
+        let pagesRead = Number(body.pagesRead || 0);
+
+        if (body.status === "Want to Read") {
+
+            pagesRead = 0;
+
+        }
+
+        if (body.status === "Completed") {
+
+            pagesRead = Number(body.pageCount);
+
         }
 
         const book = await Book.findOneAndUpdate(
+
             {
                 _id: id,
                 user: userId,
             },
+
             {
-                title: body.title,
-                author: body.author,
-                tags: body.tags,
+                title: body.title.trim(),
+                author: body.author.trim(),
+                summary: body.summary?.trim() || "",
+                pageCount: Number(body.pageCount),
+                pagesRead,
                 status: body.status,
             },
+
             {
                 new: true,
                 runValidators: true,
             }
+
         );
 
         if (!book) {
+
             return NextResponse.json(
                 {
                     success: false,
@@ -111,15 +139,21 @@ export async function PUT(request, { params }) {
                     status: 404,
                 }
             );
+
         }
 
         return NextResponse.json({
+
             success: true,
+
             message: "Book updated successfully",
+
             book,
+
         });
 
     } catch (error) {
+
         return NextResponse.json(
             {
                 success: false,
@@ -129,7 +163,9 @@ export async function PUT(request, { params }) {
                 status: 500,
             }
         );
+
     }
+
 }
 
 

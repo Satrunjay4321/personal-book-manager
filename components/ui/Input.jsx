@@ -5,7 +5,8 @@ export default function Input({
     ...props
 }) {
     return (
-        <div className="space-y-1">
+        <div className="w-full space-y-1">
+
             {label && (
                 <label className="text-sm font-medium text-gray-700">
                     {label}
@@ -13,7 +14,8 @@ export default function Input({
             )}
 
             <input
-                className={`w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 ${className}`}                {...props}
+                {...props}
+                className={`w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 ${className}`}
             />
 
             {error && (
@@ -21,6 +23,7 @@ export default function Input({
                     {error}
                 </p>
             )}
+
         </div>
     );
-} 
+}

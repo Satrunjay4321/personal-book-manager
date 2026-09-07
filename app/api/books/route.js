@@ -44,15 +44,9 @@ export async function POST(request) {
 
         const userId = await getUserId();
 
-        // const {
-        //     title,
-        //     author,
-        //     tags,
-        //     status,
-        // } = await request.json();
-
         const body = await request.json();
 
+        // Validation
         const error = validateBook(body);
 
         if (error) {
@@ -67,20 +61,32 @@ export async function POST(request) {
             );
         }
 
-        const { title, author, tags, status } = body;
+        // Business Logic
+
+        let pagesRead = Number(body.pagesRead || 0);
+
+        if (body.status === "Want to Read") {
+            pagesRead = 0;
+        }
+
+        if (body.status === "Completed") {
+            pagesRead = Number(body.pageCount);
+        }
 
         const book = await Book.create({
+            title: body.title.trim(),
+            author: body.author.trim(),
+            summary: body.summary?.trim() || "",
+            pageCount: Number(body.pageCount),
+            pagesRead,
+            status: body.status,
             user: userId,
-            title,
-            author,
-            tags,
-            status,
         });
 
         return NextResponse.json(
             {
                 success: true,
-                message: "Book added successfully",
+                message: "Book added successfully.",
                 book,
             },
             {

@@ -64,7 +64,7 @@ export default function SignupPage() {
 
             <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
 
-                <h1 className="mb-6 text-center text-3xl font-bold">
+                <h1 className="mb-6 text-center text-3xl font-bold text-gray-400">
                     Signup
                 </h1>
 
@@ -99,13 +99,14 @@ export default function SignupPage() {
                     <Button
                         type="submit"
                         disabled={loading}
+                        className="cursor-pointer"
                     >
                         {loading ? "Creating..." : "Signup"}
                     </Button>
 
                 </form>
 
-                <p className="mt-6 text-center text-sm">
+                <p className="mt-6 text-center text-sm text-gray-400">
 
                     Already have an account?
 

@@ -20,22 +20,26 @@ export default function EditBookPage() {
     const router = useRouter();
 
     const [book, setBook] = useState(null);
-
     const [loading, setLoading] = useState(true);
-
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+
+        if (!id) return;
 
         const fetchBook = async () => {
 
             try {
 
+                setLoading(true);
+
                 const res = await getBook(id);
 
                 setBook(res.data.book);
 
-            } catch {
+            } catch (error) {
+
+                console.error(error);
 
                 toast.error("Book not found");
 
@@ -51,7 +55,7 @@ export default function EditBookPage() {
 
         fetchBook();
 
-    }, [id]);
+    }, [id, router]);
 
     const handleSubmit = async (data) => {
 
@@ -61,7 +65,9 @@ export default function EditBookPage() {
 
             const res = await updateBook(id, data);
 
-            toast.success(res.data.message);
+            toast.success(
+                res.data.message || "Book updated successfully"
+            );
 
             router.push("/dashboard");
 
@@ -69,7 +75,7 @@ export default function EditBookPage() {
 
             toast.error(
                 error.response?.data?.message ||
-                "Failed to update"
+                "Failed to update book"
             );
 
         } finally {
@@ -80,20 +86,30 @@ export default function EditBookPage() {
 
     };
 
-    if (loading)
+    if (loading) {
         return <Loader />;
+    }
+
+    if (!book) {
+        return null;
+    }
 
     return (
 
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen bg-gray-100 py-10">
 
-            <div className="mx-auto max-w-2xl">
+            <div className="mx-auto max-w-4xl px-4">
 
-                <Card>
+                <Card className="p-8">
 
-                    <h1 className="mb-6 text-3xl font-bold">
+                    <h1 className="mb-2 text-3xl font-bold text-gray-500">
                         Edit Book
                     </h1>
+
+                    <p className="mb-8 text-gray-500">
+                        Update your book details or search online
+                        to replace the information.
+                    </p>
 
                     <BookForm
                         initialData={book}
@@ -108,5 +124,4 @@ export default function EditBookPage() {
         </div>
 
     );
-
 }

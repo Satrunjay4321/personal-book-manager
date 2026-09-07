@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
-const bookSchema = new mongoose.Schema(
+const wishlistSchema = new mongoose.Schema(
     {
+        // Book information
         title: {
             type: String,
             required: true,
@@ -42,6 +43,7 @@ const bookSchema = new mongoose.Schema(
             default: "Want to Read",
         },
 
+        // Owner
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
@@ -53,5 +55,8 @@ const bookSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.models.Book ||
-    mongoose.model("Book", bookSchema);
+const Wishlist =
+    mongoose.models.Wishlist ||
+    mongoose.model("Wishlist", wishlistSchema);
+
+export default Wishlist;
